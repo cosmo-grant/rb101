@@ -11,7 +11,7 @@ def valid_number?(str)
 end
 
 def valid_percentage?(str)
-  0 < str.to_f && str.to_f < 100
+  str.to_f > 0 && str.to_f < 100
 end
 
 prompt("Welcome to Mortgage Calculator.")
@@ -52,12 +52,9 @@ end
 monthly_payment = calculate_payment(
   loan_amount.to_i,
   (apr.to_f / 100) / 12,
-  duration.to_i * 12,
+  duration.to_i * 12
 )
 
 puts "Your monthly payment is #{monthly_payment}"
 
 puts "Goodbye"
-
-
-
