@@ -1,7 +1,23 @@
 # NOTES ON RB101
 
-1. In 2.18, they say blocks create a new scope for local variables. In "The Well-Grounded Rubyist" they say (I think) the opposite. Who is right?
+1.
 
-It seems a bit of both. Local variables initialized in the block have block scope. But you can access local variables initialized outside the block.
+```
+if false
+  greeting = "hello world"
+end
+greeting # => nil
+```
 
-The case of constants maybe clarifies things. Constants initialized in a block are accessible outside. Why? Maybe because they're in the same scope, i.e. blocks don't create a new scope.
+Initial explanation: during parse-time Ruby scans the code and initializes to nil any local variable that's assigned to, even if that assignment will never be executed.
+
+But that's not quite right:
+
+```
+greeting # => NameError
+if false
+  greeting = "hello world"
+end
+```
+
+Better explanation: during parse-time Ruby scans the code and initializes to nil any local variable that's assigned to, even if that assignment will never be executed, *but that variable is only available in that scope and after the assignment*.
